@@ -1,58 +1,71 @@
-<script setup>
+<script>
 import ProductCard from './ProductCard.vue'
 import products from '../assets/products.json'
-import { onMounted, watchEffect, toRefs, watch, ref } from 'vue';
 
-const props = defineProps({
-  brand: Number
-})
+export default {
+    name: 'ProductsList',
+    components: {
+        ProductCard
+    },
+    props: {
+        brand: {
+            type: Number,
+            default: null
+        },
+    },
 
-let initProducts = products;
+    data() {
+        return {
+            initProducts: [],
+        };
+    },
 
-function test1() {
-  console.log('props.brand', props.brand);
-}
+    mounted() {
+        this.initProducts = products;
+    },
+    methods: {
+        handleBuy(product) {
+            this.$emit("handle-buy", product)
+        },
+    },
 
-// onMounted(() => {
-// console.log('brandId', props.brandId);
-// if (props.brandId) {
-//   products = products.filter(item => item.brand = props.brandId);
-// }
-// })
-
-// const selected = ref(props.brandId)
-
-watchEffect(() => {
-  const parse = toRefs(props.brand);
-  console.log('props.brandId', props.brand);
-  if (props.brand) {
-    initProducts = products.filter(item => item.brand === props.brand);
-  }
-});
-
-// const selected = ref(props.brandId)
-
-// watch(selected, (selection, prevSelection) => {
-//   if (props.brandId) {
-//     products = products.filter(item => item.brand = props.brandId);
-//   }
-//   console.log('brandId', props.brandId);
-// })
+    watch: {
+        brand: {
+            handler(value) {
+                if (value) {
+                    this.initProducts = products.filter(item => {
+                        if (item.brand === value) return item;
+                    });
+                }
+            }
+        }
+    }
+};
 </script>
 
 <template>
-  <button @click="test1()">432424242342</button>
-  <div class="products-list">
-    <ProductCard v-for="product in initProducts" :key="product.id" :product="product" />
-  </div>
+    <div v-if="this.initProducts.length" class="products-list__main">
+        <ProductCard v-for="product in this.initProducts" :key="product.id" :product="product"
+                     @handle-buy="handleBuy"/>
+    </div>
+    <p v-else class="products-list__empty">
+        Ничего не найдено
+    </p>
 </template>
 
 <style scoped>
-.products-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  width: 100%;
-  padding: 10px;
+.products-list__main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+    padding: 10px;
+}
+
+.products-list__empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 </style>
