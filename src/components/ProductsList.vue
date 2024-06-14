@@ -25,7 +25,7 @@ export default {
     },
     methods: {
         handleBuy(product) {
-            this.$emit("handle-buy", product)
+            this.$emit('handle-buy', product)
         },
     },
 
@@ -36,6 +36,8 @@ export default {
                     this.initProducts = products.filter(item => {
                         if (item.brand === value) return item;
                     });
+                } else {
+                    this.initProducts = products;
                 }
             }
         }
@@ -45,27 +47,28 @@ export default {
 
 <template>
     <div v-if="this.initProducts.length" class="products-list__main">
-        <ProductCard v-for="product in this.initProducts" :key="product.id" :product="product"
-                     @handle-buy="handleBuy"/>
+        <ProductCard v-for="product in this.initProducts" :key="product.id" :product="product" @handle-buy="handleBuy" />
     </div>
     <p v-else class="products-list__empty">
         Ничего не найдено
     </p>
 </template>
 
-<style scoped>
-.products-list__main {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    width: 100%;
-    padding: 10px;
-}
+<style scoped lang="scss">
+.products-list {
+    &__main {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        width: 100%;
+        padding: 10px;
+    }
 
-.products-list__empty {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+    &__empty {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
 }
 </style>

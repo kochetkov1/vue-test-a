@@ -20,7 +20,7 @@ export default {
             this.filterId = id;
         },
         handleBuy(product) {
-            this.$emit("handle-buy", product)
+            this.$emit('handle-buy', product)
         },
     },
 };
@@ -28,8 +28,8 @@ export default {
 
 <template>
     <section class="catalog">
-        <Filters @set-filter="setFilter"/>
-        <ProductsList :brand="filterId" @handle-buy="handleBuy"/>
+        <Filters @set-filter="setFilter" />
+        <ProductsList :brand="filterId" @handle-buy="handleBuy" />
     </section>
 </template>
 

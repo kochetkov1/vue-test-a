@@ -13,7 +13,7 @@ export default {
     },
     methods: {
         setId(id) {
-            this.$emit("set-filter", id)
+            this.$emit('set-filter', id)
         },
     },
 };
@@ -25,24 +25,25 @@ export default {
             <li v-for="brand in initBrands" :key="brand.id" class="filters__list-item" @click="setId(brand.id)">&#8250;
                 {{ brand.title }}
             </li>
+            <li class="filters__list-item" @click="setId(null)">&#8250; All brands</li>
         </ul>
     </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .filters {
     display: flex;
     max-width: 200px;
     min-width: 150px;
     width: 100%;
     padding: 10px;
-}
 
-.filters__list {
-    list-style: none;
-}
+    &__list {
+        list-style: none;
+    }
 
-.filters__list-item {
-    cursor: pointer;
+    &__list-item {
+        cursor: pointer;
+    }
 }
 </style>
